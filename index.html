@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matthew Clark | CS Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0f14; --bg2: #13161e; --bg3: #1a1e28;
+      --border: rgba(255,255,255,0.08); --border-hi: rgba(255,255,255,0.15);
+      --accent: #3b82f6; --accent2: #93c5fd; --accent-soft: rgba(59,130,246,0.08);
+      --text: #e8eaf0; --muted: #7a8099; --card-r: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; font-size: 16px; line-height: 1.65; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(13,15,20,0.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent); text-decoration: none; letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* SECTIONS */
+    section { padding: 6rem 2.5rem; max-width: 1060px; margin: 0 auto; }
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* SECTION HEADER */
+    .section-header { margin-bottom: 3rem; }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 0.6rem; }
+    h2 { font-size: clamp(1.8rem, 4vw, 2.3rem); font-weight: 700; letter-spacing: -0.02em; }
+
+    /* HERO */
+    #hero { min-height: calc(100vh - 60px); display: flex; flex-direction: column; justify-content: center; padding-top: 4rem; padding-bottom: 4rem; position: relative; overflow: hidden; }
+    #hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%); pointer-events: none; }
+    .hero-label { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+    .hero-label::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--accent); }
+    h1 { font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    h1 .accent { color: var(--accent); }
+    .hero-sub { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-sub span { color: var(--accent2); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 3rem; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 12px; padding: 5px 12px; border: 1px solid var(--border-hi); border-radius: 20px; color: var(--muted); background: var(--bg2); }
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { font-family: 'DM Mono', monospace; font-size: 13px; padding: 11px 22px; border-radius: 8px; text-decoration: none; letter-spacing: 0.04em; transition: all 0.2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: #0d0f14; font-weight: 500; }
+    .btn-primary:hover { filter: brightness(1.12); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-hi); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SELF-ASSESSMENT */
+    .assessment-body { max-width: 740px; }
+    .assessment-body h3 { font-size: 17px; font-weight: 700; color: var(--accent2); margin: 2rem 0 0.75rem; letter-spacing: -0.01em; }
+    .assessment-body p { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 1.1rem; }
+    .assessment-body p strong { color: var(--text); font-weight: 600; }
+
+    /* CODE REVIEW */
+    .video-container {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r);
+      overflow: hidden; position: relative; padding-top: 56.25%;
+    }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .video-placeholder {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+    }
+    .video-placeholder-icon { font-size: 40px; opacity: 0.3; }
+    .video-placeholder p { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); }
+
+    /* ENHANCEMENTS */
+    .enhancement-list { display: flex; flex-direction: column; gap: 2rem; }
+    .enhancement-card {
+      background: linear-gradient(to bottom right, var(--bg2), var(--accent-soft)); border: 1px solid var(--border); border-radius: var(--card-r);
+      overflow: hidden; transition: border-color 0.2s;
+    }
+    .enhancement-card:hover { border-color: var(--border-hi); }
+    .enhancement-header {
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: center; gap: 1rem; padding: 1.5rem 1.75rem;
+      cursor: pointer; user-select: none;
+    }
+    .enhancement-num {
+      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent);
+      background: var(--accent-soft); border: 1px solid rgba(59,130,246,0.25);
+      padding: 4px 10px; border-radius: 20px; letter-spacing: 0.08em; white-space: nowrap;
+    }
+    .enhancement-title-block { }
+    .enhancement-title { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
+    .enhancement-subtitle { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+    .enhancement-toggle { font-family: 'DM Mono', monospace; font-size: 18px; color: var(--muted); transition: transform 0.2s; }
+    .enhancement-toggle.open { transform: rotate(45deg); }
+    .enhancement-body { display: none; padding: 0 1.75rem 1.75rem; border-top: 1px solid var(--border); }
+    .enhancement-body.open { display: block; }
+    .enhancement-narrative { margin-top: 1.25rem; }
+    .narrative-section { margin-bottom: 1.5rem; }
+    .narrative-section h4 { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 0.6rem; }
+    .narrative-section p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+    .artifact-links { display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap; }
+    .artifact-link {
+      font-family: 'DM Mono', monospace; font-size: 12px; padding: 7px 14px;
+      border: 1px solid var(--border-hi); border-radius: 7px; color: var(--muted);
+      text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .artifact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .artifact-link.primary { border-color: rgba(59,130,246,0.3); color: var(--accent); background: rgba(59,130,246,0.08); }
+    .artifact-link.primary:hover { background: rgba(59,130,246,0.12); }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .skill-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r); padding: 1.25rem; }
+    .skill-card-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-pill { font-family: 'DM Mono', monospace; font-size: 11px; padding: 3px 9px; background: var(--bg3); border: 1px solid var(--border); border-radius: 5px; color: var(--text); }
+
+    /* CONTACT */
+    .contact-inner { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r); padding: 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .contact-text h2 { margin-bottom: 0.5rem; }
+    .contact-text p { color: var(--muted); font-size: 15px; max-width: 400px; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link-icon { width: 32px; height: 32px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.25rem; }
+      .enhancement-header { grid-template-columns: auto 1fr auto; gap: 0.75rem; }
+      .contact-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">// matthew-clark.dev</a>
+  <ul class="nav-links">
+    <li><a href="#assessment">about</a></li>
+    <li><a href="#code-review">code review</a></li>
+    <li><a href="#enhancements">enhancements</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-label">cs-499 · computer science capstone</div>
+  <h1>Matthew<br><span class="accent">Clark.</span></h1>
+  <p class="hero-sub">
+    Computer Science student and <span>Project Manager</span> working in flight safety and aircraft simulation.
+    Focused on building stronger technical skills to better understand and support the systems I work with every day.
+  </p>
+  <div class="hero-tags">
+    <span class="tag">C++</span>
+    <span class="tag">Python</span>
+    <span class="tag">MongoDB</span>
+    <span class="tag">Algorithms</span>
+    <span class="tag">Secure Software</span>
+    <span class="tag">Dash / Plotly</span>
+    <span class="tag">Android / Java</span>
+    <span class="tag">OpenGL</span>
+  </div>
+  <div class="cta-row">
+    <a href="#assessment" class="btn btn-primary">Read self-assessment</a>
+    <a href="#enhancements" class="btn btn-outline">View enhancements</a>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- PROFESSIONAL SELF-ASSESSMENT -->
+<section id="assessment">
+  <div class="section-header">
+    <div class="section-label">00 / self-assessment</div>
+    <h2>Professional Self-Assessment</h2>
+  </div>
+  <div class="assessment-body">
+
+    <p>Completing the Computer Science program at Southern New Hampshire University has been a way for me to strengthen the technical side of the work I already do. I have spent the last several years working in flight safety and aircraft simulation, where I interact with complex systems on a regular basis. More recently, I transitioned into a project management role, which added another layer of responsibility in coordinating technical and operational teams. This degree was not about changing careers, but about building a better understanding of how the software behind these systems actually works and how to make more informed decisions because of it.</p>
+
+    <h3>Strengths and Professional Growth</h3>
+    <p>One of the biggest changes for me throughout this program was how I think about code. Early on, my focus was just getting things to work. Over time, especially through courses like CS 260 and CS 320, I started paying more attention to how code is structured, how easy it is to understand, and whether it would hold up if someone else had to work on it later. That shift from working code to maintainable code is something that directly connects to the kind of systems I deal with professionally.</p>
+
+    <p>Collaboration has always been a big part of my job, and that carried over into the program. Courses like CS 250 and IT 315 helped reinforce structured approaches to working with others, documenting decisions, and breaking work into manageable pieces. These were things I was already doing in practice, but the program gave me a clearer framework for them and helped me communicate those ideas more effectively.</p>
+
+    <p>Another area that improved was how I explain technical work. Whether it is writing documentation, explaining design decisions, or walking someone through a problem, being clear and direct matters. CS 499 pushed me to not just show what I built, but explain why I made certain decisions and what tradeoffs were involved, which is very similar to what I do when communicating with stakeholders in my current role.</p>
+
+    <h3>Data Structures and Algorithms</h3>
+    <p>My coursework in data structures and algorithms gave me a practical vocabulary for evaluating computational efficiency. Working with sorting algorithms, hash tables, and vectors in C++ helped me understand how the choice of data structure affects performance at scale. The selection sort, quicksort, and merge sort implementations I developed reinforced that algorithm selection is a design decision, not an afterthought. Understanding Big-O complexity and how pivot selection in quicksort affects partition balance are the kinds of details that separate functional solutions from well-engineered ones.</p>
+
+    <h3>Software Engineering and Databases</h3>
+    <p>Across the program, I developed a clearer sense of what good software engineering practice looks like at the design level. <strong>CS 330 (Computational Graphics and Visualization)</strong> pushed me into unfamiliar territory with OpenGL, teaching me how to reason about rendering pipelines and coordinate systems. On the database side, working with both SQL and MongoDB in <strong>CS 340 (Advanced Programming Concepts)</strong> gave me experience with two very different data models and helped me understand when each is appropriate. Building and debugging a Dash-based dashboard backed by MongoDB reinforced how front-end and back-end layers interact and how poorly structured callback logic can cascade into broader system failures.</p>
+
+    <h3>Security</h3>
+    <p>Security has been a thread running through multiple courses, and it is an area I approach with particular seriousness given my background. The <strong>Artemis Financial project in CS 405</strong> was one of the most directly applicable experiences in the program. Working through encryption, HTTPS configuration, certificate management, and dependency vulnerability scanning reinforced the principle that security is not a feature added at the end — it is a property that must be designed in from the beginning. That perspective shapes how I evaluate software decisions in my professional context as well.</p>
+
+    <p>Throughout the program, I developed skills across several key areas that directly apply to my professional work. From a collaboration standpoint, I regularly worked in structured environments that emphasized communication and shared responsibility. This aligns closely with my current role, where I coordinate across teams and stakeholders. In terms of data structures and algorithms, I gained a better understanding of how design decisions impact performance, especially when working with sorting algorithms and data organization. My experience with software engineering and databases, particularly through building applications and working with MongoDB, helped me understand how different system components interact. Finally, security concepts reinforced the importance of building systems that are reliable and protected from the start, which is especially relevant in safety-critical environments like aviation.</p>
+
+    <h3>How the Artifacts Fit Together</h3>
+    <p>The three enhancements in this portfolio were selected to demonstrate growth across software design and engineering, algorithms and data structures, and databases. The first two enhancements work with the same C++ bid-sorting program — an honest early-stage artifact that was functional but rough in its structure. Enhancement One addresses design and engineering through refactoring and input validation. Enhancement Two expands the algorithmic scope by adding merge sort alongside the existing methods. Enhancement Three introduces a Python-based dashboard backed by MongoDB, representing a more complete system that required debugging, multi-criteria filtering, and callback synchronization. Together, these artifacts tell a coherent story — from low-level algorithmic work to full-stack application development — with software design principles threading through all three.</p>
+
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- CODE REVIEW -->
+<section id="code-review">
+  <div class="section-header">
+    <div class="section-label">01 / code review</div>
+    <h2>Informal Code Review</h2>
+  </div>
+  <p style="color: var(--muted); font-size: 15px; margin-bottom: 2rem; max-width: 640px;">
+    A walkthrough of the original artifacts before enhancement — covering existing functionality, areas for improvement, and the planned enhancements for each of the three categories.
+  </p>
+  <div class="video-container">
+    <iframe src="https://www.youtube.com/embed/8nLsxvRabvk" allowfullscreen></iframe>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- ENHANCEMENTS -->
+<section id="enhancements">
+  <div class="section-header">
+    <div class="section-label">02 / enhancements</div>
+    <h2>Artifact Enhancements</h2>
+  </div>
+
+  <div class="enhancement-list">
+
+    <!-- Enhancement 1 -->
+    <div class="enhancement-card">
+      <div class="enhancement-header" onclick="toggleEnhancement(this)">
+        <span class="enhancement-num">Enhancement 01</span>
+        <div class="enhancement-title-block">
+          <div class="enhancement-title">Software Design &amp; Engineering</div>
+          <div class="enhancement-subtitle">C++ Bid Sorter — Refactoring &amp; Input Validation</div>
+        </div>
+        <span class="enhancement-toggle">+</span>
+      </div>
+      <div class="enhancement-body">
+        <div class="enhancement-narrative">
+          <div class="narrative-section">
+            <h4>ARTIFACT DESCRIPTION</h4>
+            <p>A C++ program developed early in the program for working with a dataset of auction bids. Users can load data from a CSV file, display bids, and sort using selection sort or quicksort. The original was functional but lacked structure and separation of responsibilities.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>WHAT WAS IMPROVED</h4>
+            <p>The main focus of this enhancement was cleaning up the structure of the program without rewriting it completely. I separated out parts of the logic, like menu handling and data display, so the flow of the program was easier to follow. I also added input validation to prevent invalid entries from causing issues, which was something the original version did not handle well.</p>
+            <p>This enhancement was included to demonstrate my ability to improve software design without rebuilding a project from scratch, which reflects growth in software engineering practices.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>SKILLS DEMONSTRATED</h4>
+            <p>Separation of concerns, function decomposition, input validation, and applying software design principles to improve an existing codebase without completely rewriting it.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>REFLECTION</h4>
+            <p>This enhancement showed how much my approach to coding has changed. Originally, I was focused on just getting the program to run. Going back to it, I was thinking more about readability, structure, and how someone else would understand it. The biggest challenge was improving the code without overcomplicating it or turning it into a completely new project.</p>
+          </div>
+        </div>
+        <div class="artifact-links">
+          <a href="artifacts/original/BidSorter_Original.cpp" class="artifact-link" target="_blank">⌂ Original Code</a>
+          <a href="artifacts/enhancement-one/BidSorter_Enhanced.cpp" class="artifact-link primary" target="_blank">⤴ Enhanced Code</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhancement 2 -->
+    <div class="enhancement-card">
+      <div class="enhancement-header" onclick="toggleEnhancement(this)">
+        <span class="enhancement-num">Enhancement 02</span>
+        <div class="enhancement-title-block">
+          <div class="enhancement-title">Algorithms &amp; Data Structures</div>
+          <div class="enhancement-subtitle">C++ Bid Sorter — Algorithm Improvement</div>
+        </div>
+        <span class="enhancement-toggle">+</span>
+      </div>
+      <div class="enhancement-body">
+        <div class="enhancement-narrative">
+          <div class="narrative-section">
+            <h4>ARTIFACT DESCRIPTION</h4>
+            <p>The same C++ bid-sorting program, now extended to include a third sorting algorithm. The original was limited to selection sort and quicksort, restricting the ability to compare different algorithmic approaches on the same dataset.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>WHAT WAS IMPROVED</h4>
+            <p>This enhancement focused on improving how sorting was handled and expanding the program’s ability to compare different approaches. Instead of just relying on the existing implementations, I looked at how the algorithms performed and made adjustments to improve efficiency and clarity. This also helped reinforce how different sorting strategies behave under the same dataset.</p>
+            <p>This enhancement was selected to demonstrate growth in algorithms and data structures by focusing on how different approaches affect performance and efficiency.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>SKILLS DEMONSTRATED</h4>
+            <p>Algorithm analysis, comparative evaluation of sorting behavior, integration of new logic into an existing codebase, and understanding how implementation choices affect efficiency and scalability.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>REFLECTION</h4>
+            <p>Working on this part made it clear that small decisions in algorithms can have a big impact on performance. Things like how data is divided or how comparisons are handled are easy to overlook when everything seems to work, but they make a difference as the dataset grows. It also reinforced that understanding the behavior of an algorithm is just as important as implementing it.</p>
+          </div>
+        </div>
+        <div class="artifact-links">
+          <a href="artifacts/original/BidSorter_Original.cpp" class="artifact-link" target="_blank">⌂ Original Code</a>
+          <a href="artifacts/enhancement-two/BidSorter_Algorithms.cpp" class="artifact-link primary" target="_blank">⤴ Enhanced Code</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhancement 3 -->
+    <div class="enhancement-card">
+      <div class="enhancement-header" onclick="toggleEnhancement(this)">
+        <span class="enhancement-num">Enhancement 03</span>
+        <div class="enhancement-title-block">
+          <div class="enhancement-title">Databases</div>
+          <div class="enhancement-subtitle">Python / MongoDB Dashboard — Filtering &amp; Map Sync</div>
+        </div>
+        <span class="enhancement-toggle">+</span>
+      </div>
+      <div class="enhancement-body">
+        <div class="enhancement-narrative">
+          <div class="narrative-section">
+            <h4>ARTIFACT DESCRIPTION</h4>
+            <p>A Python-based Dash dashboard for visualizing animal shelter data stored in MongoDB. The original supported filtering by rescue category (Water, Mountain, Disaster) but had inconsistent filtering behavior and a geolocation map that did not update correctly when records were selected.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>WHAT WAS IMPROVED</h4>
+            <p>The main improvements focused on making the dashboard more usable and fixing issues with how the data was being handled. I expanded the filtering system so users could filter by multiple criteria instead of just predefined categories. I also fixed the map so it updates correctly when a record is selected, which was not working consistently in the original version.</p>
+            <p>This artifact was included to demonstrate my ability to work with databases and integrate them into a functional application, showing how data, logic, and user interface components interact.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>SKILLS DEMONSTRATED</h4>
+            <p>MongoDB query construction, Dash callback architecture, dynamic UI state management, debugging data synchronization across components, and integration between the database, application logic, and visual output.</p>
+          </div>
+          <div class="narrative-section">
+            <h4>REFLECTION</h4>
+            <p>This was one of the more challenging parts because the issue was not obvious at first. The data itself was correct, but the way it moved through the application caused the map to fall out of sync. Fixing it required stepping back and looking at how everything was connected instead of focusing on just one part of the code.</p>
+          </div>
+        </div>
+        <div class="artifact-links">
+          <a href="artifacts/original/AnimalShelter_Original.py" class="artifact-link" target="_blank">⌂ Original Code</a>
+          <a href="artifacts/enhancement-three/AnimalShelter_Dashboard.py" class="artifact-link primary" target="_blank">⤴ Enhanced Code</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <div class="section-label">03 / skills</div>
+    <h2>Technical Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-label">LANGUAGES</div>
+      <div class="skill-pills">
+        <span class="skill-pill">C++</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">MATLAB</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-label">FRAMEWORKS & TOOLS</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Dash / Plotly</span>
+        <span class="skill-pill">Android Studio</span>
+        <span class="skill-pill">OpenGL</span>
+        <span class="skill-pill">Git</span>
+        <span class="skill-pill">CMake</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-label">DATABASES</div>
+      <div class="skill-pills">
+        <span class="skill-pill">MongoDB</span>
+        <span class="skill-pill">MySQL</span>
+        <span class="skill-pill">SQLite</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-label">CONCEPTS</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Data Structures</span>
+        <span class="skill-pill">Algorithms</span>
+        <span class="skill-pill">OOP</span>
+        <span class="skill-pill">Secure Coding</span>
+        <span class="skill-pill">Agile / Scrum</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-text">
+      <h2>Get in touch</h2>
+      <p>Open to conversations about software, simulation systems, or project management in technical environments.</p>
+    </div>
+    <div class="contact-links">
+        <a href="https://github.com/YOUR_USERNAME" class="contact-link" target="_blank">
+            <div class="contact-link-icon">⌥</div>
+            github.com/Clarm158
+        </a>
+      <a href="https://linkedin.com/in/YOUR_PROFILE" class="contact-link" target="_blank">
+          <div class="contact-link-icon">in</div>
+          linkedin.com/in/matthew-clark-162866131
+      </a>
+      <a href="mailto:your@email.com" class="contact-link">
+        <div class="contact-link-icon">@</div>
+        matthew_clark67@yahoo.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>matthew clark · cs-499 capstone · southern new hampshire university · 2026</p>
+</footer>
+
+<script>
+  function toggleEnhancement(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.enhancement-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    toggle.classList.toggle('open', !isOpen);
+  }
+</script>
+
+</body>
+</html>
